@@ -1,6 +1,5 @@
 ﻿#include<iostream>
 #include<cstdio>
-#include"stack.hpp"
 #include<stack>//之前的栈链接不到这里不知道为什么用了STL的栈来写。。。。。就很尴尬
 #include<queue>//两种实现方法没有有这个库另一种写在注释上了。。。。
 using std::cout;
@@ -56,6 +55,15 @@ public:
 	void BST_postorderI(Node* t);
     void BST_postorderR(Node* t);
 	void BST_levelOrder(Node* t);
+	void R_Rotate(Node* p)//右旋
+	{
+		Node* L;
+		L = p->left;//
+		p->left = L->right;
+		L->right = p;
+		p = L;
+
+	}
 };
 template<typename T>
 binary_sort_tree<T>::binary_sort_tree() {

@@ -26,11 +26,5 @@
     <ClInclude Include="binary_sort_tree.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="stacka.hpp">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="stack.hpp">
-      <Filter>头文件</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>
