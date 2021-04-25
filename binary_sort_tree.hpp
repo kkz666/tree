@@ -19,7 +19,7 @@ public:
 	typedef struct Node {
 		T data;
 		struct Node* left, * right;
-		int isout = 0;
+		int height = 0;
 	};
 	Node* root = nullptr; 
 	//stack<Node> s;
@@ -55,16 +55,57 @@ public:
 	void BST_postorderI(Node* t);
     void BST_postorderR(Node* t);
 	void BST_levelOrder(Node* t);
-	void R_Rotate(Node* p)//右旋
+	int GetHeight(Node* tree)            //获取当前节点的高度。
 	{
-		Node* L;
-		L = p->left;//
-		p->left = L->right;
-		L->right = p;
-		p = L;
+		if (tree == nullptr) return 0;
+		return tree->height;
+	}
 
+	bool IsBalanced(Node* tree)            //判断是否平衡。
+	{
+		int BF = GetHeight(tree->lchild) - GetHeight(tree->rchild);
+		return abs(BF) < 2;
+	}
+	Node* Rotate_LL(Node* tree)//右右型~~
+	{
+		Node* temp = tree->left;
+		tree->left = temp->right;
+		temp->right = tree;
+
+		//更新高度,先更新node再更新temp。
+		tree->height = max(GetHeight(tree->left), GetHeight(tree->right)) + 1;
+		temp->height = max(GetHeight(temp->left), GetHeight(temp->right)) + 1;
+		return temp;
+	}
+	Node* Rotate_RR(Node* tree)//左左型
+	{
+		Node* temp = tree->right;
+		tree->right = temp->left;
+		temp->left = tree;
+
+		//更新高度,先更新node再更新temp。
+		tree->height = max(GetHeight(tree->left), GetHeight(tree->right)) + 1;
+		temp->height = max(GetHeight(temp->left), GetHeight(temp->right)) + 1;
+
+		return temp;
+	}
+
+	Node* Rotate_LR(Node* tree)//左右型先左旋变成左左型再右旋
+	{
+		Node* temp = tree->left;
+		tree->left = Rotate_RR(temp);
+		return Rotate_LL(tree);
+	}
+	Node* Rotate_RL(Node* tree)//同上了~~~
+	{
+		Node* temp = tree->right;
+		tree->right = Rotate_RR(temp);
+		return Rotate_RR(tree);
 	}
 };
+
+
+
 template<typename T>
 binary_sort_tree<T>::binary_sort_tree() {
 	BinarySortTree* p = new BinarySortTree;
@@ -138,10 +179,14 @@ binary_sort_tree<T>::~binary_sort_tree()
 template< typename T>
 void binary_sort_tree<T>::BST_delete(Node* t, T num)
 {       //输入要删除的结点的值
+	if (root->left==nullptr&&root->right==nullptr&&root->data==num) {
+		root = nullptr;
+		return;
+	}
 	Node* temp, * previous;
 	temp = root;
 	previous = root;
-	while (temp != NULL)
+	while (temp != nullptr)
 	{
 		if (temp->data == num)
 			break;
@@ -156,14 +201,14 @@ void binary_sort_tree<T>::BST_delete(Node* t, T num)
 			temp = temp->right;
 		}
 	}
-	if (temp != NULL)
+	if (temp != nullptr)
 	{
-		if (temp->left == NULL)        //要删的结点的左孩子为空的情况
+		if (temp->left == nullptr)        //要删的结点的左孩子为空的情况
 		{
-			if (temp == root && temp->right == NULL)
+			if (temp == root && temp->right == nullptr)
 			{
 				delete temp;
-				temp = NULL;
+				temp = nullptr;
 			}
 			else
 			{
@@ -171,7 +216,7 @@ void binary_sort_tree<T>::BST_delete(Node* t, T num)
 				delete temp;
 			}
 		}
-		else if (temp->right == NULL)        //要删的结点的右孩子为空的情况
+		else if (temp->right == nullptr)        //要删的结点的右孩子为空的情况
 		{
 			previous->left == temp ? previous->left = temp->left : previous->right = temp->left;
 			delete temp;
@@ -180,7 +225,7 @@ void binary_sort_tree<T>::BST_delete(Node* t, T num)
 		{
 			Node* right_min = temp->right;
 			previous = right_min;
-			while (right_min->left != NULL)        //找到右子树最小结点
+			while (right_min->left != nullptr)        //找到右子树最小结点
 			{
 				previous = right_min;
 				right_min = right_min->left;
@@ -196,6 +241,10 @@ void binary_sort_tree<T>::BST_delete(Node* t, T num)
 			}
 			delete right_min;                //删除右子树的最小结点
 		}
+	}
+	else {
+		cout << "没有找到要删除的数字";
+		return;
 	}
 }
 	template<typename T>
@@ -308,7 +357,7 @@ void binary_sort_tree<T>::BST_delete(Node* t, T num)
 		{
 			p = q[front];
 			front = (front + 1) % 100;
-			cout<<p->data;
+			cout<<p->data<<" ";
 			if (p->left)
 			{
 				q[rear] = p->left;

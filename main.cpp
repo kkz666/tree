@@ -55,6 +55,7 @@ int main(void) {
 				printf("输入错误！请重新输入:");
 			}
 			A.BST_insert(num);
+			//A.BST_insert(num);
 			break;
 		case 2:
 			cout << "输入你要查找的数" << endl;

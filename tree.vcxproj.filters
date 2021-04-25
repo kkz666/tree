@@ -20,9 +20,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="C:\Users\HP\Desktop\QG训练营\第五周\代码和头文件\inc\binary_sort_tree.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="binary_sort_tree.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
