@@ -2,6 +2,8 @@
 #include<cstdio>
 #include<stack>//之前的栈链接不到这里不知道为什么用了STL的栈来写。。。。。就很尴尬
 #include<queue>//两种实现方法没有有这个库另一种写在注释上了。。。。
+
+//给出了部分AVL的实现不知道写AVL老是会提示老式格式给整吐了
 using std::cout;
 using std::cin;
 using std::endl;
